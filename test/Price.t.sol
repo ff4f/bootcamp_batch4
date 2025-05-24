@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.13;
+
+import {Test, console} from "forge-std/Test.sol";
+import {Price} from "../src/Price.sol";
+
+contract PriceTest is Test {
+    Price public price;
+
+
+    function setUp() public {
+        vm.createSelectFork("https://arb-mainnet.g.alchemy.com/v2/ELpFGD8V-Fc29HJDscA7WZcGjLaKFGOv");
+        price = new Price();
+    }
+
+    function test_getPrice() public {
+        uint256 price_ = price.getPrice();
+        console.log(price_);
+    }
+
+}

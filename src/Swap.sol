@@ -10,19 +10,21 @@ contract Swap {
     address usdc = 0xaf88d065e77c8cC2239327C5EDb3A432268e5831;
 
     function swap(uint256 amountIn) external {
+        // transfer dari user ke vault
         IERC20(weth).transferFrom(msg.sender, address(this), amountIn);
+
+        // approve ke router Uniswap
         IERC20(weth).approve(uniswapRouter, amountIn);
-        ISwapRouter.ExactInputSingleParams memory params = ISwapRouter
-            .ExactInputSingleParams({
-                tokenIn: weth,
-                tokenOut: usdc,
-                fee: 3000,
-                recipient: msg.sender,
-                deadline: block.timestamp,
-                amountIn: amountIn,
-                amountOutMinimum: 0,
-                sqrtPriceLimitX96: 0
-            });
+        ISwapRouter.ExactInputSingleParams memory params = ISwapRouter.ExactInputSingleParams({
+            tokenIn: weth,
+            tokenOut: usdc,
+            fee: 3000,
+            recipient: msg.sender,
+            deadline: block.timestamp,
+            amountIn: amountIn,
+            amountOutMinimum: 0,
+            sqrtPriceLimitX96: 0
+        });
 
         ISwapRouter(uniswapRouter).exactInputSingle(params);
     }
